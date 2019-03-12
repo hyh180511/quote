@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.quote.mapper.UserMapper">
+
+    <select id="loadUser" resultType="String">
+        SELECT login
+        FROM  t_account
+    </select>
+    
+    <select id="loadProjectInfoById" resultType="com.demo.quote.pojo.ProjectInfo">
+        SELECT name, address,num,accountId
+        FROM  t_project
+        WHERE id=#{proId}
+    </select>
+</mapper>

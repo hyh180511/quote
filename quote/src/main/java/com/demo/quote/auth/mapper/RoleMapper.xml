@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.demo.quote.auth.mapper.RoleMapper">
+
+    <resultMap type="com.demo.quote.auth.pojo.Role"
+               id="roleList">
+        <result property="id" column="id"/>
+        <result property="name"  column="name"/>
+        <result property="remark" column="remark"/>
+        <result property="indexUrl"  column="indexUrl"/>
+        <result property="indexRemark" column="indexRemark"/>
+    </resultMap>
+
+    <select id="loadRolesByUser" parameterType="int" resultMap="roleList">
+        SELECT r.id,r.name,r.remark,r.indexUrl,r.indexRemark
+        FROM t_role r
+        INNER JOIN t_account_role ar
+        ON r.id = ar.role_id
+        WHERE ar.account_id = #{accountId}
+    </select>
+</mapper>

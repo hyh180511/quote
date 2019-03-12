@@ -1,0 +1,42 @@
+server:
+   port: 8080
+   context-path: /quoteManager
+
+spring:
+   #jsp配置
+   mvc:
+       view:
+         prefix: /WEB-INF/page/
+         suffix: .jsp
+   #数据库配置
+   datasource:
+       url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8
+       username: root
+       password: 123456
+       driver-class-name: com.mysql.jdbc.Driver
+       type: com.alibaba.druid.pool.DruidDataSource
+       druid:
+         max-active: 20
+         initial-size: 1
+         min-idle: 3
+         max-wait: 60000
+         time-between-eviction-runs-millis: 60000
+         min-evictable-idle-time-millis: 300000
+         test-while-idle: true
+         test-on-borrow: false
+         test-on-return: false
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+logging:
+  config: classpath:log4j2.yml
+security:
+  cas:
+    server:
+      host: http://10.5.0.145:8080/cas
+      login: ${security.cas.server.host}/login
+      logout: ${security.cas.server.host}/logout
+    service:
+      host: http://localhost:8080
+      login: /quoteManager/login
+      logout: /quote/logout

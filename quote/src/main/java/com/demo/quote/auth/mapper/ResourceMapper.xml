@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.quote.auth.mapper.ResourceMapper">
+	<!-- 自定义数据容器返回的bean -->
+	<resultMap type="com.demo.quote.auth.pojo.Resource"
+		id="resourceList">
+		<result property="id" column="id" jdbcType="INTEGER"/>
+		<result property="name" column="name" jdbcType="VARCHAR" />
+		<result property="interceptUrl" column="interceptUrl" jdbcType="VARCHAR"/>
+		<result property="remark" column="remark" jdbcType="VARCHAR"/>
+		<result property="roleId" column="roleId" jdbcType="INTEGER"/>
+		<result property="roleName" column="roleName" jdbcType="VARCHAR"/>
+		<result property="orderBy" column="orderBy" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<select id="loadAllResources" resultMap="resourceList">
+		SELECT id,`name`,interceptUrl,remark
+		FROM t_resource
+	</select>
+	
+	<select id="loadAllRoleResources" resultMap="resourceList">
+		SELECT resource.id AS id,resource.name AS `name`,resource.interceptUrl AS interceptUrl,
+		resource.remark as remark,role.id AS roleId , role.name AS roleName,privilege_resource.orderBy AS orderBy
+		FROM t_role role
+		INNER JOIN t_role_privilege role_privilege
+		ON role.id=role_privilege.role_id
+		INNER JOIN t_privilege privilege
+		ON privilege.id = role_privilege.privilege_id
+		INNER JOIN t_privilege_resource privilege_resource
+		ON privilege.id = privilege_resource.privilegeId
+		INNER JOIN t_resource resource
+		ON resource.id = privilege_resource.resourceId 
+	</select>
+	
+	<select id="loadResourceByPrivilege" parameterType="int" resultMap="resourceList">
+		SELECT r.id,r.name,r.interceptUrl,r.remark
+		FROM t_privilege_resource pr
+		INNER JOIN t_resource r
+		ON pr.resourceId = r.id
+		WHERE pr.privilegeId = #{privilegeId}
+	</select>
+</mapper>
