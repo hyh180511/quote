@@ -6,7 +6,7 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 
 /**
- * Created by junzi on 2016/10/17.
+ * Created by hyh on 2018/10/17.
  */
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = "/druid/*",
